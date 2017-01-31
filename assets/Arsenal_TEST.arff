@@ -1,0 +1,18 @@
+@RELATION Arsenal
+
+@ATTRIBUTE Cech  {0,1}
+@ATTRIBUTE Sanchez   {0,1}
+@ATTRIBUTE Ozil  {0,1}
+@ATTRIBUTE class    {Loss,Draw,Win}
+@DATA
+
+1, 1,  1,  Win
+1, 0,  1,  Draw
+0, 0,  0,  Loss
+1, 1,  1,  Loss
+0, 0,  0,  Draw
+0, 0,  0,  Win
+1, 1,  0,  Win
+1, 1,  1,  Win
+0, 1,  0,  Loss
+1, 0,  1,  Loss
