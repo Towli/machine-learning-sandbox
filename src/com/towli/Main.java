@@ -1,5 +1,6 @@
 package com.towli;
 
+import weka.classifiers.bayes.NaiveBayes;
 import weka.core.Instances;
 import java.io.FileReader;
 import java.util.Arrays;
@@ -10,12 +11,13 @@ public class Main {
     private static final String testingFilePath = "assets/Arsenal_TEST.arff";
     private static final String divider = "----------------";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Instances trainingInstances = readData(trainingFilePath);
         Instances testingInstances = readData(testingFilePath);
         int wins;
 
+        /* Print characteristics & information of data sets */
         System.out.println("# instances in training data: " + trainingInstances.numInstances());
         System.out.println("# attributes in training data: " + trainingInstances.numAttributes());
         wins = findOccurrencesOfValue(3, 2.0, trainingInstances);
@@ -31,7 +33,18 @@ public class Main {
         double[] instance = testingInstances.get(4).toDoubleArray();
         System.out.println("5th instance of testing data: " + Arrays.toString(instance));
 
+        /* Set which attribute is the class value (the thing we want to predict) */
+        trainingInstances.setClassIndex(trainingInstances.numAttributes()-1);
+        /* Build NaiveBayes classifier with training data */
+        NaiveBayes naiveBayes = new NaiveBayes();
+        naiveBayes.buildClassifier(trainingInstances);
 
+        /* Iterate over test data classifying each instance, summing the amount of accurate classifications */
+        int counts = 0;
+        for (int i = 0; i < testingInstances.numInstances(); i++) {
+            // todo
+        }
+        System.out.println("Num of accurate classifications: " + counts);
 
     }
 
