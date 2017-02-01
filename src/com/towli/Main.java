@@ -2,6 +2,7 @@ package com.towli;
 
 import weka.core.Instances;
 import java.io.FileReader;
+import java.util.Arrays;
 
 public class Main {
 
@@ -13,19 +14,24 @@ public class Main {
 
         Instances trainingInstances = readData(trainingFilePath);
         Instances testingInstances = readData(testingFilePath);
-        int wins = 0;
+        int wins;
 
         System.out.println("# instances in training data: " + trainingInstances.numInstances());
         System.out.println("# attributes in training data: " + trainingInstances.numAttributes());
         wins = findOccurrencesOfValue(3, 2.0, trainingInstances);
         System.out.println("# wins in training data: " + wins);
-
+        System.out.println("Printing all instances of training data: ");
+        System.out.println(trainingInstances.toString());
         System.out.println(divider);
 
         System.out.println("# instances in testing data: " + testingInstances.numInstances());
         System.out.println("# attributes in testing data: " + testingInstances.numAttributes());
         wins = findOccurrencesOfValue(3, 2.0, testingInstances);
         System.out.println("# wins in testing data: " + wins);
+        double[] instance = testingInstances.get(4).toDoubleArray();
+        System.out.println("5th instance of testing data: " + Arrays.toString(instance));
+
+
 
     }
 
