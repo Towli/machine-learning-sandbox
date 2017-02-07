@@ -1,6 +1,7 @@
 package com.towli;
 
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import java.io.FileReader;
 import java.util.Arrays;
@@ -35,17 +36,48 @@ public class Main {
 
         /* Set which attribute is the class value (the thing we want to predict) */
         trainingInstances.setClassIndex(trainingInstances.numAttributes()-1);
+        testingInstances.setClassIndex(testingInstances.numAttributes()-1);
+
         /* Build NaiveBayes classifier with training data */
         NaiveBayes naiveBayes = new NaiveBayes();
         naiveBayes.buildClassifier(trainingInstances);
 
         /* Iterate over test data classifying each instance, summing the amount of accurate classifications */
+        System.out.println(divider);
+        System.out.println("NaiveBayes accuracy report... ");
         int counts = 0;
+        double classifiedValue;
         for (int i = 0; i < testingInstances.numInstances(); i++) {
-            // todo
+            classifiedValue = naiveBayes.classifyInstance(testingInstances.get(i));
+            if (testingInstances.instance(i).classValue() == classifiedValue)
+                counts++;
         }
         System.out.println("Num of accurate classifications: " + counts);
+        System.out.println("Distribution for each instance:");
+        for (int i = 0; i < testingInstances.numInstances(); i++) {
+            Arrays.toString(naiveBayes.distributionForInstance(testingInstances.get(i)));
+        }
 
+        System.out.println(divider);
+
+        /* Build 1-Nearest Neighbour Classifier with training data */
+        IBk ibk = new IBk();
+        ibk.buildClassifier(trainingInstances);
+
+        /* Iterate over test data classifying each instance, summing the amount of accurate classifications */
+        System.out.println(divider);
+        System.out.println("kNN accuracy report... ");
+        counts = 0;
+        for (int i = 0; i < testingInstances.numInstances(); i++) {
+            classifiedValue = ibk.classifyInstance(testingInstances.get(i));
+            if (testingInstances.instance(i).classValue() == classifiedValue)
+                counts++;
+        }
+        System.out.println("Num of accurate classifications: " + counts);
+        System.out.println("Distribution for each instance:");
+        for (int i = 0; i < testingInstances.numInstances(); i++) {
+            Arrays.toString(ibk.distributionForInstance(testingInstances.get(i)));
+        }
     }
 
     /**
